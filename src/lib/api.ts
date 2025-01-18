@@ -18,7 +18,11 @@ const apiClient = axios.create({
 
 export const fetchArticle = async (id: string): Promise<{ contents: Article[] } | null> => {
   try {
-    const response = await apiClient.get('/blogs');
+    const response = await apiClient.get('/blogs', {
+      params: {
+        limit: 100, // 取得件数を100件に制限
+      },
+    });
     const articles = (response.data as { contents: Article[] }).contents;
     const article = articles.find((item: Article) => item.id === id);
     return article ? { contents: [article] } : null;
